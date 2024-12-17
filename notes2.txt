@@ -1,0 +1,22 @@
+import pywhatkit as kit
+import datetime
+
+# Número de telefone e a mensagem
+numero_telefone = "+5516994182750"  # Substitua pelo número de telefone com o código do país
+mensagem = "Olá, esta é uma mensagem automatizada enviada pelo WhatsApp!"
+
+# Hora atual
+agora = datetime.datetime.now()
+hora_envio = (agora + datetime.timedelta(minutes=2)).hour
+minuto_envio = (agora + datetime.timedelta(minutes=2)).minute
+
+try:
+    # Envia a mensagem
+    kit.sendwhatmsg(numero_telefone, mensagem, hora_envio, minuto_envio)
+    print(f"Mensagem programada para {numero_telefone} às {hora_envio}:{minuto_envio:02d}")
+except Exception as e:
+    print(f"Falha ao enviar mensagem para {numero_telefone}. Erro: {e}")
+
+
+
+

@@ -1,0 +1,43 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+
+# Configurações do navegador
+driver = webdriver.Chrome()
+
+# Lista de números de telefone e a mensagem
+numeros_telefone = [
+    "+5516994182750",
+    "+5516992624128",
+    "+5516991499760",
+    "+5516991493543",
+    "+5516992890025"
+]
+mensagem = "Olá, esta é uma mensagem automatizada enviada pelo WhatsApp!"
+
+# Abrir WhatsApp Web
+driver.get("https://web.whatsapp.com")
+input("Pressione Enter após escanear o QR code e o WhatsApp Web estar carregado.")
+
+for numero in numeros_telefone:
+    # Navegar para o chat do número
+    driver.get(f"https://web.whatsapp.com/send?phone={numero}")
+
+    try:
+        # Encontrar a caixa de texto e enviar a mensagem
+        time.sleep(10)  # Espera para garantir que a página está carregada
+        caixa_texto = driver.find_element(By.XPATH, "//div[@contenteditable='true']")
+        caixa_texto.click()
+        caixa_texto.send_keys(mensagem + Keys.ENTER)
+        print(f"Mensagem enviada para {numero}")
+    except Exception as e:
+        print(f"Falha ao enviar mensagem para {numero}. Erro: {e}")
+
+    # Espera 60 segundos antes de enviar para o próximo número
+    if numero != numeros_telefone[-1]:
+        print("Esperando 60 segundos antes de enviar a próxima mensagem...")
+        time.sleep(60)
+
+# Fechar o navegador
+driver.quit()
